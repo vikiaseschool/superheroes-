@@ -70,6 +70,7 @@ def create_superhero_calendar():
     print("Database created and populated with superhero events!")
 
 
+#databases for each superhero - recommended + info
 def create_database(hero_name, comics):
     db_name = f"{hero_name}_comics.db"
     conn = sqlite3.connect(db_name)
@@ -94,7 +95,31 @@ def create_database(hero_name, comics):
     conn.close()
     print(f"Database '{db_name}' created with reading order for {hero_name.capitalize()}.")
 
-#databases of recommended comics for each superhero
+def create_hero_info_database(hero_name, hero_info):
+    db_name = f"{hero_name}_info.db"
+    conn = sqlite3.connect(db_name)
+    cursor = conn.cursor()
+
+    cursor.execute(f'''
+    CREATE TABLE IF NOT EXISTS {hero_name}_info (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        studio TEXT NOT NULL,
+        first_appearance TEXT NOT NULL,
+        main_villains TEXT NOT NULL,
+        abilities TEXT NOT NULL
+    );
+    ''')
+
+    cursor.execute(f'''
+    INSERT INTO {hero_name}_info (studio, first_appearance, main_villains, abilities)
+    VALUES (?, ?, ?, ?);
+    ''', hero_info)
+
+    conn.commit()
+    conn.close()
+    print(f"Database '{db_name}' created with info for {hero_name.capitalize()}.")
+
+
 def create_batman():
     comics = [
         ("Detective Comics", 27, 1939, "First appearance of Batman."),
@@ -104,6 +129,14 @@ def create_batman():
         ("The Killing Joke", None, 1988, "Exploration of the Joker's backstory.")
     ]
     create_database("batman", comics)
+
+    hero_info = (
+        "DC",
+        "Detective Comics #27 (1939)",
+        "Joker, Riddler, Bane",
+        "Peak human physical and mental abilities, martial arts, detective skills"
+    )
+    create_hero_info_database("batman", hero_info)
 
 def create_superman():
     comics = [
@@ -115,15 +148,13 @@ def create_superman():
     ]
     create_database("superman", comics)
 
-def create_justice_league():
-    comics = [
-        ("The Brave and the Bold", 28, 1960, "First appearance of the Justice League."),
-        ("Justice League of America", 1, 1960, "First issue of JLA's solo series."),
-        ("Crisis on Infinite Earths", None, 1985, "Multiverse-altering crossover."),
-        ("The New Frontier", None, 2004, "Reimagining of the Justice League's early days."),
-        ("Justice League", 1, 2011, "Rebooted series from The New 52.")
-    ]
-    create_database("justice_league", comics)
+    hero_info = (
+        "DC",
+        "Action Comics #1 (1938)",
+        "Lex Luthor, General Zod, Doomsday",
+        "Super strength, flight, invulnerability, heat vision"
+    )
+    create_hero_info_database("superman", hero_info)
 
 def create_spiderman():
     comics = [
@@ -135,6 +166,14 @@ def create_spiderman():
     ]
     create_database("spiderman", comics)
 
+    hero_info = (
+        "Marvel",
+        "Amazing Fantasy #15 (1962)",
+        "Green Goblin, Doctor Octopus, Venom",
+        "Super strength, agility, spider-sense, web-shooting"
+    )
+    create_hero_info_database("spiderman", hero_info)
+
 def create_ironman():
     comics = [
         ("Tales of Suspense", 39, 1963, "First appearance of Iron Man."),
@@ -145,6 +184,14 @@ def create_ironman():
     ]
     create_database("ironman", comics)
 
+    hero_info = (
+        "Marvel",
+        "Tales of Suspense #39 (1963)",
+        "Mandarin, Obadiah Stane, Justin Hammer",
+        "Genius intellect, powered armor suit, advanced weaponry"
+    )
+    create_hero_info_database("ironman", hero_info)
+
 def create_avengers():
     comics = [
         ("The Avengers", 1, 1963, "First appearance of The Avengers."),
@@ -154,6 +201,33 @@ def create_avengers():
         ("Avengers: Endgame Prelude", None, 2019, "Prelude comic to the MCU's epic finale.")
     ]
     create_database("avengers", comics)
+
+    hero_info = (
+        "Marvel",
+        "The Avengers #1 (1963)",
+        "Thanos, Loki, Ultron",
+        "Team of superheroes with diverse powers and abilities"
+    )
+    create_hero_info_database("avengers", hero_info)
+
+def create_justice_league():
+    comics = [
+        ("The Brave and the Bold", 28, 1960, "First appearance of the Justice League."),
+        ("Justice League of America", 1, 1960, "First issue of JLA's solo series."),
+        ("Crisis on Infinite Earths", None, 1985, "Multiverse-altering crossover."),
+        ("The New Frontier", None, 2004, "Reimagining of the Justice League's early days."),
+        ("Justice League", 1, 2011, "Rebooted series from The New 52.")
+    ]
+    create_database("justice_league", comics)
+
+    hero_info = (
+        "DC",
+        "The Brave and the Bold #28 (1960)",
+        "Darkseid, Brainiac, Starro",
+        "Team of superheroes with diverse abilities, united to protect Earth"
+    )
+    create_hero_info_database("justice_league", hero_info)
+
 
 '''
 if __name__ == "__main__":
